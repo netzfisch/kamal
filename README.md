@@ -4,6 +4,7 @@
 
 to install Rails 7.1-beta via Kamal to cloud provider:
 
+    $ gem install -v 7.1.0.beta1 rails
     $ rails _7.1.0.beta1_ new kamal -d postgresql -c tailwind
     $ gem install kamal
     $ rails generate scaffold post title:string content:text
@@ -12,7 +13,7 @@ to install Rails 7.1-beta via Kamal to cloud provider:
 
 Check
 
-* http://127.0.0.1:3000/ to use PostController and
+* http://127.0.0.1:3000/posts to use PostController and
 * use http://127.0.0.1:3000/up (returns green + status code: 200-ok) for load
   balancer
 
