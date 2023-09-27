@@ -1,18 +1,18 @@
 # Name of your application. Used to uniquely configure containers.
-service: my-app
+service: kamal
 
 # Name of the container image.
-image: user/my-app
+image: netzfisch/kamal
 
 # Deploy to these servers.
 servers:
-  - 192.168.0.1
+  - 213.128.146.47 # 192.168.0.1
 
 # Credentials for your image host.
 registry:
   # Specify the registry server, if you're not using Docker Hub
   # server: registry.digitalocean.com / ghcr.io / ...
-  username: my-user
+  username: netzfisch
 
   # Always use an access token rather than real password when possible.
   password:
@@ -20,11 +20,11 @@ registry:
 
 # Inject ENV variables into containers (secrets come from .env).
 # Remember to run `kamal env push` after making changes!
-# env:
-#   clear:
-#     DB_HOST: 192.168.0.2
-#   secret:
-#     - RAILS_MASTER_KEY
+env:
+  clear:
+    DB_HOST: 213.128.146.47 # 192.168.0.2
+  secret:
+    - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
 # ssh:
@@ -41,7 +41,19 @@ registry:
 #     host: ssh://app@192.168.0.1
 
 # Use accessory services (secrets come from .env).
-# accessories:
+accessories:
+  db:
+    image: postgres:15
+    host: 213.128.146.47
+    port: 5432
+    env:
+      clear:
+        POSTGRES_USER: 'kamal'
+        POSTGRES_DB: 'kamal_production'
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
 #   db:
 #     image: mysql:8.0
 #     host: 192.168.0.2
