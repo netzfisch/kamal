@@ -6,7 +6,8 @@ image: netzfisch/kamal
 
 # Deploy to these servers.
 servers:
-  - 213.128.146.47 # 192.168.0.1
+  - 164.90.208.83
+# 213.128.146.47 # 192.168.0.1
 
 # Credentials for your image host.
 registry:
@@ -22,7 +23,7 @@ registry:
 # Remember to run `kamal env push` after making changes!
 env:
   clear:
-    DB_HOST: 213.128.146.47 # 192.168.0.2
+    DB_HOST: 164.90.208.83
   secret:
     - RAILS_MASTER_KEY
 
@@ -45,7 +46,7 @@ accessories:
   db:
     image: postgres:15
     host: 213.128.146.47
-    port: 5432
+    port: 3000
     env:
       clear:
         POSTGRES_USER: 'kamal'
