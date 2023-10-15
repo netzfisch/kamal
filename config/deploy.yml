@@ -6,9 +6,6 @@ image: netzfisch/kamal
 
 # Deploy to these servers.
 servers:
-  # Digital Ocean droplet
-  - 164.90.208.83
-  # selfhosted VM
   - 213.128.146.47
 
 # Credentials for your image host.

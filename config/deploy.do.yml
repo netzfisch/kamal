@@ -1,0 +1,10 @@
+servers:
+  - 164.90.208.83
+
+env:
+  clear:
+    DB_HOST: 164.90.208.83
+
+accessories:
+  db:
+    host: 164.90.208.83

@@ -1,66 +1,87 @@
 # README
 
-## DEMO transcript
+## Setup
 
-to install Rails 7.1.1 via Kamal to cloud provider:
+DEMO transcript to install Rails 7.1 via Kamal gem to virtual machine on cloud
+provider:
 
-    $ gem install -v 7.1.1 rails
-    $ rails _7.1.1_ new kamal -d postgresql -c tailwind
-    $ gem install kamal
-    $ rails generate scaffold post title:string content:text
-    $ rails db:create db:migrate
-    $ ./bin/dev
+    % gem install kamal
+    % gem install -v 7.1.1 rails
+    % rails _7.1.1_ new test-kamal -d postgresql -c tailwind
+    % rails generate scaffold post title:string content:text
+    % rails db:prepare # do db:create + migrate at once
+    % ./bin/dev
 
-Check
+Check that `http://127.0.0.1:3000/up` return green screen as status code `200`
+for OK.
 
-* http://127.0.0.1:3000/posts to use PostController and
-* use http://127.0.0.1:3000/up (returns green + status code: 200-ok) for load
-  balancer
+### Configuration
 
-Start `% kamal init` and configure `% vim config/deploy.yml`. Ensure that
+Initialize Kamal with `% kamal init` which creates `config/deploy.yml`, `.env`
+and some sample hook example files. Ensure
 
-* that `% cat.env` secrets are correct,
-* having the same ruby-version in Gemfile, docker-compose.yml, etc. and
-* database password is known.
+* that .env-secrets are correct,
+* having the same ruby-version in Dockfile, Gemfile and
+* using the same DB_HOST, POSTGRES_PASSWORD variables in database.yml and deploy.yml.
+* Enter the different IPs in the deploy.yml for creation AND daily run!
 
 Further more ensure your ssh-settings allow you root-access to target server.
+`cat ~/.ssh/id_rsa.pub >> scp://root@213.128.xxx.xxx:/root/.ssh/authorized_keys`
 
-Than align building architecrute (laptop) with runtime enviroment, maybe do
-`% bundle lock --add-platform aarch64-linux` and start building locally Docker
-container. Better build on the remote, see config/deploy.yaml
+If you want to build remotely the docker images (preferable), choose a VM with
+at least 2 GB RAM. Further add to deploy.yml this block:
 
-Push to the remote server with `% kamal setup` and `% kamal redeploy` for any
-changes. `kamal envify` updates the .env file.
+```yaml
+builder:
+  remote:
+    arch: amd64
+    host: ssh://root@213.128.xxx.xxx
+```
 
-If things do not work as expected, go directly to the machine
-`% ssh root@213.128.146.47` and manage docker conatiner
-`% docker ps / stop ed2a0cd4e864 / rm ed2a0cd4e864`.
+Alternatively align native building architecrute on the local machine with
+remote runtime enviroment, e.g. `% bundle lock --add-platform aarch64-linux`.
 
----
+Finalise setup of remote machine with `% kamal setup` which will install Docker
+host, push .env-file and do `% kamal deploy` in one step.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Build + Deployment
 
-Things you may want to cover:
+If things do not work as expected, try this:
 
-* Ruby version
+```sh
+% kamal build details   # check if on native vs remote build
+% kamal build remove    # if needed remove actual setup
+% kamal lock release    # remove lock-file to restart
+% kamal env push        # push enviroment variables if changed
+% kamal deploy          # deploy or (re)deploy
+```
 
-* System dependencies
+If you need to delete the database container, go directly to the machine
+`% ssh root@213.128.xxx.xxx` and manage docker conatiner
 
-* Configuration
+```
+% docker ps
+% docker stop app-db && docker rm app-db
+```
 
-* Database creation
+But be aware that your data will be lost.
 
-* Database initialization
+## Links
 
-* How to run the test suite
+* [Kamal deploy](https://kamal-deploy.org/)
+* [TLS support through Let's Encrypt using Traefik](https://github.com/basecamp/kamal/discussions/112)
+* [Multiple apps on a single server](https://www.erikminkel.com/2023/09/29/using-kamal-to-host-multiple-apps-on-a-single-server/)
 
-* Services (job queues, cache servers, search engines, etc.)
+## Contributing
 
-* Deployment instructions
+If you find a problem, please create a [GitHub Issue](https://github.com/netzfisch/test_kamal/issues).
 
-* Licence
+Have a fix, want to add or request a feature? [Pull Requests](https://github.com/netzfisch/test_kamal/pulls) are welcome!
 
-### Links
+### TODOs
 
-* [Kamal deploy](https://kamal-deploy.org/) 4:09
+- [?] integrate LetsEncrypt!
+
+### License
+
+The MIT License (MIT), see [LICENSE](https://github.com/netzfisch/test_kamal/blob/master/LICENSE) file.
