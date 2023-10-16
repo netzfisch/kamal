@@ -49,11 +49,12 @@ host, push .env-file and do `% kamal deploy` in one step.
 If things do not work as expected, try this:
 
 ```sh
-% kamal build details   # check if on native vs remote build
-% kamal build remove    # if needed remove actual setup
-% kamal lock release    # remove lock-file to restart
-% kamal env push        # push enviroment variables if changed
-% kamal deploy          # deploy or (re)deploy
+% kamal build details      # check if on native vs remote build
+% kamal build remove       # if needed remove actual setup
+% kamal lock release       # remove lock-file to restart
+% kamal env push           # push enviroment variables if changed
+% kamal deploy             # deploy or (re)deploy
+% kamal deploy -d staging  # deploy to staging -> deploy.staging.yml enviroment
 ```
 
 If you need to delete the database container, go directly to the machine
