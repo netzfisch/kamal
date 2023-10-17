@@ -12,24 +12,29 @@ provider:
     % rails db:prepare # do db:create + migrate at once
     % ./bin/dev
 
-Check that `http://127.0.0.1:3000/up` return green screen as status code `200`
+Check that `http://127.0.0.1:3000/up` return **green screen** as status code `200`
 for OK.
 
 ### Configuration
 
-Initialize Kamal with `% kamal init` which creates `config/deploy.yml`, `.env`
+**Initialize** Kamal with `% kamal init` which creates `config/deploy.yml`, `.env`
 and some sample hook example files. Ensure
 
 * that .env-secrets are correct,
 * having the same ruby-version in Dockfile, Gemfile and
-* using the same DB_HOST, POSTGRES_PASSWORD variables in database.yml and deploy.yml.
-* Enter the different IPs in the deploy.yml for creation AND daily run!
+* using the **same DB_HOST, POSTGRES_PASSWORD** variables in database.yml and deploy.yml.
+* Enter the different server IPs in the deploy.yml for traffic management
+
+Depending on **ssl-certificate** existing may comment-out `config.force_ssl = true`
+production.rb enviroment.
 
 Further more ensure your ssh-settings allow you root-access to target server.
-`cat ~/.ssh/id_rsa.pub >> scp://root@213.128.xxx.xxx:/root/.ssh/authorized_keys`
+Copy the given public key to the remote, do
+`ssh-copy-id -i ~/.ssh/id_rsa.pub root@213.128.xxx.xxx ` which adds the key by
+appending to ~/.ssh/authorized_keys file of remote server user.
 
-If you want to build remotely the docker images (preferable), choose a VM with
-at least 2 GB RAM. Further add to deploy.yml this block:
+If you want to **build remotely** the docker images (preferable), choose a **VM with
+at least 2 GB RAM**. Further add to deploy.yml this block:
 
 ```yaml
 builder:
@@ -38,7 +43,7 @@ builder:
     host: ssh://root@213.128.xxx.xxx
 ```
 
-Alternatively align native building architecrute on the local machine with
+Alternatively **align native building architecture** on the local machine with
 remote runtime enviroment, e.g. `% bundle lock --add-platform aarch64-linux`.
 
 Finalise setup of remote machine with `% kamal setup` which will install Docker
@@ -65,7 +70,7 @@ If you need to delete the database container, go directly to the machine
 % docker stop app-db && docker rm app-db
 ```
 
-But be aware that your data will be lost.
+But be aware that your **data will be lost**.
 
 ## Links
 
