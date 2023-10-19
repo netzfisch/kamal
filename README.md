@@ -86,7 +86,7 @@ Have a fix, want to add or request a feature? [Pull Requests](https://github.com
 
 ### TODOs
 
-- [?] integrate LetsEncrypt!
+- [done] integrate LetsEncrypt!
 
 ### License
 
